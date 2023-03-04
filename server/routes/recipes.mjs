@@ -7,6 +7,7 @@ const router = express.Router();
 // Get a list of 50 recipes
 router.get("/", async (req, res) => {
   // db.collection("<ENDPOINT>")
+  console.log("string: ", process.env.ATLAS_URI)
   const collection = await db.collection("recipes");
   let results = await collection.find({}).toArray();
   res.send(results).status(200);
