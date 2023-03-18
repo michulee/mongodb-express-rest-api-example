@@ -16,6 +16,8 @@ router.get("/", async (req, res) => {
   // TODO filter by specific item
   // let results = await collection.find({}).toArray();
   const { sort, pageID } = req.query;
+  console.log('sort: ', sort)
+  console.log('pageID: ', pageID)
   let results = {};
   if (sort === 'sort') {
     // https://www.mongodbtutorial.org/mongodb-crud/mongodb-limit/ PAGINATION
@@ -28,9 +30,10 @@ router.get("/", async (req, res) => {
   }
   else {
     // results = await collection.find({}).toArray();
+
+    // FIXME not working on nginx
     // results = await collection.find({}).limit(3).toArray();
     results = await collection.find({}).skip(pageID > 0 ? ( ( pageID - 1 ) * 3) : 0).limit(3).toArray();
-
   }
 
   res.send(results).status(200);
