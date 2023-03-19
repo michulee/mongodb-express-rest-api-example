@@ -19,21 +19,22 @@ router.get("/", async (req, res) => {
   console.log('sort: ', sort)
   console.log('pageID: ', pageID)
   let results = {};
+  const limitItems = 6;
   if (sort === 'sort') {
     // https://www.mongodbtutorial.org/mongodb-crud/mongodb-limit/ PAGINATION
     // results = await collection.find({}).sort({title:1}).toArray();
-    results = await collection.find({}).sort({title:1}).skip(pageID > 0 ? ( ( pageID - 1 ) * 3) : 0).limit(3).toArray();
+    results = await collection.find({}).sort({title:1}).skip(pageID > 0 ? ( ( pageID - 1 ) * limitItems) : 0).limit(limitItems).toArray();
   }
   else if (sort === 'reverseSort') {
     // results = await collection.find({}).sort({title:-1}).toArray();
-    results = await collection.find({}).sort({title:-1}).skip(pageID > 0 ? ( ( pageID - 1 ) * 3) : 0).limit(3).toArray();
+    results = await collection.find({}).sort({title:-1}).skip(pageID > 0 ? ( ( pageID - 1 ) * limitItems) : 0).limit(limitItems).toArray();
   }
   else {
     // results = await collection.find({}).toArray();
 
     // FIXME not working on nginx
     // results = await collection.find({}).limit(3).toArray();
-    results = await collection.find({}).skip(pageID > 0 ? ( ( pageID - 1 ) * 3) : 0).limit(3).toArray();
+    results = await collection.find({}).skip(pageID > 0 ? ( ( pageID - 1 ) * limitItems) : 0).limit(limitItems).toArray();
   }
 
   res.send(results).status(200);
